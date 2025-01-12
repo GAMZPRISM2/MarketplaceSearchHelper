@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Facebook Marketplace Filter Creator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 400px;
+        }
+        h1 {
+            font-size: 20px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        label {
+            font-weight: bold;
+            display: block;
+            margin-top: 10px;
+        }
+        input, select, button, textarea {
+            width: 100%;
+            margin-top: 5px;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        textarea {
+            resize: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Marketplace Filter Creator</h1>
+        <label for="category">Category:</label>
+        <select id="category">
+            <option value="">Select a Category</option>
+            <option value="vehicles">Vehicles</option>
+            <option value="electronics">Electronics</option>
+            <option value="entertainment">Entertainment</option>
+            <option value="hobbies">Hobbies</option>
+            <option value="instruments">Instruments</option>
+        </select>
+
+        <label for="query">Search Query:</label>
+        <input type="text" id="query" placeholder="Enter keywords">
+
+        <label for="minPrice">Min Price:</label>
+        <input type="number" id="minPrice" placeholder="Minimum price">
+
+        <label for="maxPrice">Max Price:</label>
+        <input type="number" id="maxPrice" placeholder="Maximum price">
+
+        <label for="maxMileage">Max Mileage:</label>
+        <input type="number" id="maxMileage" placeholder="Maximum mileage">
+
+        <label for="transmission">Transmission Type:</label>
+        <select id="transmission">
+            <option value="">Any</option>
+            <option value="automatic">Automatic</option>
+            <option value="manual">Manual</option>
+        </select>
+
+        <label for="vehicleType">Vehicle Type:</label>
+        <select id="vehicleType">
+            <option value="">Any</option>
+            <option value="car_truck">Car/Truck</option>
+            <option value="motorcycle">Motorcycle</option>
+            <option value="powersport">Powersports</option>
+            <option value="rv_camper">Motorhomes and Campers</option>
+            <option value="boat">Boats</option>
+            <option value="trailer">Trailers</option>
+        </select>
+
+        <label for="daysListed">Days Since Listed:</label>
+        <input type="number" id="daysListed" placeholder="Days since listed">
+
+        <label for="yearAfter">Year After:</label>
+        <input type="number" id="yearAfter" placeholder="Minimum year">
+
+        <button onclick="generateURL()">Generate URL</button>
+        <textarea id="result" rows="4" readonly placeholder="Generated URL will appear here..."></textarea>
+    </div>
+
+    <script>
+        function generateURL() {
+            const base_url = "https://www.facebook.com/marketplace";
+            const params = {};
+
+            const category = document.getElementById("category").value;
+            const query = document.getElementById("query").value;
+            const minPrice = document.getElementById("minPrice").value;
+            const maxPrice = document.getElementById("maxPrice").value;
+            const maxMileage = document.getElementById("maxMileage").value;
+            const transmission = document.getElementById("transmission").value;
+            const vehicleType = document.getElementById("vehicleType").value;
+            const daysListed = document.getElementById("daysListed").value;
+            const yearAfter = document.getElementById("yearAfter").value;
+
+            if (category) params.category_id = category;
+            if (query) params.query = query;
+            if (minPrice) params.minPrice = minPrice;
+            if (maxPrice) params.maxPrice = maxPrice;
+            if (maxMileage) params.maxMileage = maxMileage;
+            if (transmission) params.transmissionType = transmission;
+            if (vehicleType) params.topLevelVehicleType = vehicleType;
+            if (daysListed) params.daysSinceListed = daysListed;
+            if (yearAfter) params.minYear = yearAfter;
+
+            params.sortBy = "creation_time_descend";
+            params.exact = "false";
+
+            const queryString = new URLSearchParams(params).toString();
+            const url = `${base_url}/search?${queryString}`;
+
+            document.getElementById("result").value = url;
+        }
+    </script>
+</body>
+</html>
