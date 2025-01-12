@@ -51,6 +51,18 @@
         textarea {
             resize: none;
         }
+        .url-container {
+            margin-top: 20px;
+            text-align: center;
+        }
+        .url-container a {
+            color: #007bff;
+            text-decoration: none;
+            font-size: 16px;
+        }
+        .url-container a:hover {
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body>
@@ -103,7 +115,10 @@
         <input type="number" id="yearAfter" placeholder="Minimum year">
 
         <button onclick="generateURL()">Generate URL</button>
-        <textarea id="result" rows="4" readonly placeholder="Generated URL will appear here..."></textarea>
+
+        <div class="url-container">
+            <a id="generatedURL" href="#" target="_blank" style="display:none;">Click here to view the search</a>
+        </div>
     </div>
 
     <script>
@@ -137,7 +152,10 @@
             const queryString = new URLSearchParams(params).toString();
             const url = `${base_url}/search?${queryString}`;
 
-            document.getElementById("result").value = url;
+            const generatedURL = document.getElementById("generatedURL");
+            generatedURL.href = url;
+            generatedURL.style.display = 'inline';  // Show the link
+            generatedURL.textContent = 'Click here to view the search';
         }
     </script>
 </body>
